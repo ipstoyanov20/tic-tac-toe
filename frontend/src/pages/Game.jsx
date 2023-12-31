@@ -8,6 +8,7 @@ const Game = () => {
 	const [gameBoard, setGameBoard] = useState(Array(3).fill().map(() => Array(3).fill(null)));
 	const [turns, setTurns] = useState(Array(3).fill().map(() => Array(3).fill(null)));
     const [turn, setTurn] = useState(0)
+    const [nickname, setNickname] = useState("")
 	useEffect(() => {
 		fetch("http://localhost:8000/game")
 			.then(response => response.json())
@@ -15,22 +16,29 @@ const Game = () => {
 				setGameBoard(data.board)
 				setTurns(data.turns)
 				setTurn(data.turn)
-			
+				setNickname(data.nickname)
 			})
 			.catch(error => console.error('Error:', error));
-	}, []);
+	}, [nickname]);
 
     return (
-		<main className="h-full w-full">
-			<div className="inline-flex ">
-				<img src={logoX} className="w-20 h-20 m-5" alt="X" />
-				<img src={logoO} className="w-20 h-20 m-5" alt="O" />
-			</div>
-			<h1 className="mb-10">Tik tae toe</h1>
-			<div className="">
-				<div className="grid grid-cols-3">
-					{
-						gameBoard.map((row, rowIndex) => {
+			<main className="h-full w-full">
+				<div className="inline-flex ">
+					<img
+						src={logoX}
+						className="animate-bounce-fast w-20 h-20 m-5"
+						alt="X"
+					/>
+					<img
+						src={logoO}
+						className="animate-bounce-slow w-20 h-20 m-5"
+						alt="O"
+					/>
+				</div>
+				<h1 className="font-mono mb-10">Tic Tac Toe</h1>
+				<div className="">
+					<div className="relative grid grid-cols-3 bg-transparent backdrop-blur-sm backdrop-filter bg-opacity-20 rounded-md">
+						{gameBoard.map((row, rowIndex) => {
 							return row.map((item, colIndex) => {
 								return (
 									<button
@@ -47,36 +55,48 @@ const Game = () => {
 											setTurns(newArrayTurns);
 
 											console.table(gameBoard);
-
-
-
 										}}
-										className="bg-gray-600 m-2 w-28 h-28 grid place-items-center"
+										className={`${
+											colIndex == 0 || colIndex == 1 ? `border-r-4` : ``
+										}
+										${
+											rowIndex == 1 ? `border-t-4 border-b-4` : ``
+										} bg-transparent w-28 h-28 grid place-items-center`}
 										disabled={item}
 									>
 										{gameBoard[rowIndex][colIndex] ? (
 											turns[rowIndex][colIndex] == -1 ? (
 												<img
 													src={logoX}
-													className="w-10 h-10 m-5 transition-all duration-100"
+													className="animate-ping-once w-10 h-10 m-5 transition-all duration-100"
 													alt="X"
 												/>
 											) : (
 												<img
 													src={logoO}
-													className="w-10 h-10 m-5 transition-all duration-100"
-													alt="X"
+													className="animate-ping-once w-10 h-10 m-5 transition-all duration-100"
+													alt="O"
 												/>
 											)
 										) : null}
 									</button>
 								);
 							});
-						})
-					}
+						})}
+					</div>
+
+					<div className="flex flex-row justify-between mt-10">
+						<div className="flex flex-col">
+							<h2 className="font-mono">{nickname}</h2>
+							<h2 className="font-mono">0</h2>
+						</div>
+						<div className="flex flex-col">
+							<h2 className="font-mono">Computer</h2>
+							<h2 className="font-mono">0</h2>
+						</div>
+					</div>
 				</div>
-			</div>
-		</main>
-	)
+			</main>
+		);
 }
 export default Game
