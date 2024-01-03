@@ -16,11 +16,6 @@ const Game = () => {
 	
 	
 	const handleNewGame = (playerCounter, compCounter, drawCounter) => {
-		
-		console.log("Aide " + playerCounter, drawCounter, compCounter)
-
-
-		// Continue with the game entering logic
 			const newBoard = [[0,0,0],[0,0,0],[0,0,0]];
 			const newTurnsPlayer = [[0,0,0],[0,0,0],[0,0,0]];
 			const newTurnsComp = [[0,0,0],[0,0,0],[0,0,0]];
@@ -39,11 +34,6 @@ const Game = () => {
 				body: JSON.stringify({newGame:true, turnsComp: newTurnsComp, turnsPlayer: newTurnsPlayer, turn: newTurn, board: newBoard, playerCounter:playerCounter, compCounter:compCounter, drawCounter:drawCounter })
 			})
 			.then(response => response.json())
-			.then(data => {
-				// setNickname(data.nickname)
-				
-			})
-			.catch(error => console.error('Error:', error));
 		
 	}
 
@@ -62,14 +52,11 @@ const Game = () => {
 					setDrawCounter(data.drawCounter)
 					
 				})
-				.catch(error => console.error('Error:', error));
 			
 		}, [nickname]);
 
 		const checkWinner =  () => {
-			// console.table(turnsPlayer)
-			// console.table(board)
-			// console.table(turnsComp)
+
 			return fetch("http://localhost:8000/game", {
 				method: 'POST',
 				headers: {
@@ -84,14 +71,14 @@ const Game = () => {
 				{
 					setPlayerCounter(playerCounter + 1)
 					handleNewGame(playerCounter + 1, compCounter, drawCounter)
-					console.log("player win")
+					console.log("You won! Congratulations!")
 					return 1
 				}
 				else if(data.computer)
 				{
 					setCompCounter(compCounter + 1)
 					handleNewGame(playerCounter, compCounter + 1, drawCounter)
-					console.log("computer win")
+					console.log("You lost! Maybe next time...!")
 					return 2
 
 					
@@ -100,7 +87,7 @@ const Game = () => {
 				{
 					setDrawCounter(drawCounter + 1)
 					handleNewGame(playerCounter, compCounter, drawCounter + 1)
-					console.log("draw")
+					console.log("Draw")
 					return 1
 					
 				}
@@ -113,7 +100,6 @@ const Game = () => {
 		useEffect(() => {
 				const fetchWinner = async () => {
 					const winner = await checkWinner();
-					console.log("checkwinner" + winner)
 				};
 				fetchWinner();
 		}, [turnsComp]); 
@@ -129,11 +115,9 @@ const Game = () => {
 			.then(response => response.json())
 			.then(async (data) => {
 				const winner = await checkWinner();
-				console.log("checkwinner" + winner)
 				if(winner == 0)
 				{
 
-					console.log("computer move")
 					setBoard(data.computerMove[0])
 					setTurnsPlayer(data.computerMove[1])
 					setTurnsComp(data.computerMove[2])
@@ -142,7 +126,6 @@ const Game = () => {
 					
 
 			})
-			.catch(error => console.error('Error:', error));
 		}
 
 
@@ -156,7 +139,6 @@ const Game = () => {
 		  },
 		  body: JSON.stringify({drawCounter:drawCounter, saveGame: true, nickname: nickname, turnsComp: turnsComp, turnsPlayer: turnsPlayer, turn: turn, board: board, compCounter: compCounter, playerCounter: playerCounter})
 		})
-		.catch(error => console.error('Error:', error));
 	  };
 
 
@@ -191,7 +173,7 @@ const Game = () => {
 											const newArrayTurnsComp = [...turnsComp];
 											
 											turn == -1 ? setTurn(2) : setTurn(-1);
-											console.log("turn" + turn)
+
 											if(turn == -1)
 											{
 												newArray[rowIndex][colIndex] = turn;

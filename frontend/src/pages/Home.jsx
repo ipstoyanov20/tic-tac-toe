@@ -60,7 +60,6 @@ const Home = () => {
 			.then(response => response.json())
 			.then(data => {
 				setNickname(data.nickname)
-				console.log(data.alert)
 			})
 			.catch(error => console.error('Error:', error));
 		};
