@@ -49,47 +49,21 @@ const Game = () => {
 
 	
 		useEffect(() => {
-			// fetch("http://localhost:8000/game")
-			// 	.then(response => response.json())
-			// 	.then(data => {
-			// 		setBoard(data.board)
-			// 		setTurnsComp(data.turnsComp)
-			// 		setTurnsPlayer(data.turnsPlayer)
-			// 		setTurn(data.turn)
-			// 		setNickname(data.nickname)
-			// 		setCompCounter(data.compCounter)
-			// 		setPlayerCounter(data.playerCounter)
-			// 		setDrawCounter(data.drawCounter)
+			fetch("http://localhost:8000/game")
+				.then(response => response.json())
+				.then(data => {
+					setBoard(data.board)
+					setTurnsComp(data.turnsComp)
+					setTurnsPlayer(data.turnsPlayer)
+					setTurn(data.turn)
+					setNickname(data.nickname)
+					setCompCounter(data.compCounter)
+					setPlayerCounter(data.playerCounter)
+					setDrawCounter(data.drawCounter)
 					
-			// 	})
-			// 	.catch(error => console.error('Error:', error));
-			const fetchData = async () => {
-				try {
-				  // Make POST request first
-				  await fetch("http://localhost:8000/game", {
-					method: "GET",
-				  });
+				})
+				.catch(error => console.error('Error:', error));
 			
-				  // Make GET request after the POST request completes
-				  const response = await fetch("http://localhost:8000/game");
-				  const data = await response.json();
-			
-				  // Update state with the retrieved data
-				  setBoard(data.board);
-				  setTurnsComp(data.turnsComp);
-				  setTurnsPlayer(data.turnsPlayer);
-				  setTurn(data.turn);
-				  setNickname(data.nickname);
-				  setCompCounter(data.compCounter);
-				  setPlayerCounter(data.playerCounter);
-				  setDrawCounter(data.drawCounter);
-				} catch (error) {
-				  console.error('Error:', error);
-				}
-			  };
-			
-			  // Call the fetchData function
-			  fetchData();
 		}, [nickname]);
 
 		const checkWinner =  () => {

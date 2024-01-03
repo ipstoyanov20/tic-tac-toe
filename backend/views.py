@@ -173,13 +173,10 @@ def game():
 
         if 'check' in data:
             turn = data['turn']
-            turnsPlayer = data['turnsPlayer']
-            turnsComp = data['turnsComp']
-            board = data['board']
             return jsonify({
-                "player" : checkWinner(-1, turnsPlayer),
-                "computer" : checkWinner(2, turnsComp),
-                "full": checkFull(board),
+                "player" : checkWinner(-1, data['turnsPlayer']),
+                "computer" : checkWinner(2, data['turnsComp']),
+                "full": checkFull(data['board']),
             }), 200
         
         if 'computerMove' in data:
