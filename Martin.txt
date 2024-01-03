@@ -1,1 +1,0 @@
-{"drawCounter": 0, "saveGame": true, "nickname": "Martin", "turnsComp": [[0, 2, 0], [0, 0, 0], [0, 0, 0]], "turnsPlayer": [[0, 0, 0], [0, 0, -1], [0, 0, 0]], "turn": -1, "board": [[0, 2, 0], [0, 0, -1], [0, 0, 0]], "compCounter": 0, "playerCounter": 1}
